@@ -1,13 +1,20 @@
 CC = g++
 FLAGS = -Wall -O3
 
-HEADER = timer.h
-TARGET = factorials
+HEADER = timer.h karatsuba.h
 LIB = lib
-TARGETED = $(LIB)/$(TARGET)
 
-all: $(TARGET)
-	@mkdir -p $(LIB)
-	@$(CC) -o $(TARGETED) $(FLAGS) $(TARGET).cpp
-	@./$(TARGETED)
-	@rm $(TARGET)
+FACTORIAL = factorials
+FACTORIALED = $(LIB)/$(FACTORIAL)
+FIBONACCI = fibonacci
+FIBONACCIED = $(LIB)/$(FIBONACCI)
+
+all: $(FACTORIAL)
+
+$(FACTORIAL): $(FACTORIAL).cpp
+	@$(CC) -o $(FACTORIALED) $(FLAGS) $(FACTORIAL).cpp
+	@./$(FACTORIALED)
+
+$(FIBONACCI): $(FACTORIAL).cpp
+	@$(CC) -o $(FIBONACCIED) $(FLAGS) $(FIBONACCI).cpp
+	@./$(FIBONACCIED)
