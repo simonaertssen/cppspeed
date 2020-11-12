@@ -11,7 +11,7 @@ void timeme(F f, X input, unsigned int maxevals){
   ios_base::sync_with_stdio(false);
 
   unsigned int i;
-  unsigned long long test = 0;
+  // unsigned long long test = 0;
   for (i = 0; i < maxevals; i++) f(input);
   // cout << "Check: " << test << endl;
 

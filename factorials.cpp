@@ -6,6 +6,8 @@ using namespace std;
 // Investigate which computing approaches compute the factorial function the fastest.
 unsigned long long factorial_iteration(int n);
 unsigned long long factorial_recursion(int n);
+unsigned long long accumulator(int n, unsigned long long acc);
+unsigned long long factorial_accumulate(int n);
 void factorial_precision(int *result);
 
 int main(int argc, char *argv[])
@@ -14,30 +16,34 @@ int main(int argc, char *argv[])
     int i, n = 15;
     unsigned long long result;
     result = factorial_iteration(n);
-    cout << "Iteration: " << n << "! = " << result << endl;
+    cout << "Iteration:  " << n << "! = " << result << endl;
 
     result = factorial_recursion(n);
-    cout << "Recursion: " << n << "! = " << result << endl;
+    cout << "Recursion:  " << n << "! = " << result << endl;
+
+    result = factorial_accumulate(n);
+    cout << "Accumulate: " << n << "! = " << result << endl;
 
     int *arr = new int[MAXNUM];
     arr[0] = n;
     factorial_precision(arr);
-    cout << "Precision: " << n << "! = ";
+    cout << "Precision:  " << n << "! = ";
     for (i = arr[MAXNUM-1]-1; i >= 0; i--) cout << *(arr + i);
     cout << endl << endl;
 
     cout << "This method is also precise to up to " << MAXNUM << " digits:" << endl;
     arr[0] = 50;
     factorial_precision(arr);
-    cout << "Precision: " << 50 << "! = ";
+    cout << "Precision:  " << 50 << "! = ";
     for (i = arr[MAXNUM-1]-1; i >= 0; i--) cout << *(arr + i);
     cout << endl << endl;
 
-    unsigned int maxevals = 1.0e8;
+    unsigned int maxevals = 1.0e6;
     cout << "The results are correct, let's time the performance for " << maxevals << " evaluations:" << endl;
-    cout << "Iteration: "; timeme(factorial_iteration, n, maxevals);
-    cout << "Recursion: "; timeme(factorial_recursion, n, maxevals);
-    cout << "Precision: "; timeme(factorial_precision, arr, maxevals);
+    cout << "Iteration:  "; timeme(factorial_iteration, n, maxevals);
+    cout << "Recursion:  "; timeme(factorial_recursion, n, maxevals);
+    cout << "Accumulate: "; timeme(factorial_accumulate, n, maxevals);
+    cout << "Precision:  "; timeme(factorial_precision, arr, maxevals);
 
     return 0;
 }
@@ -59,6 +65,21 @@ unsigned long long factorial_recursion(int n){
      return 1;
   }
   return n*factorial_recursion(n-1);
+}
+
+
+unsigned long long accumulator(int n, unsigned long long acc){
+  if (n == 0){
+    return acc;
+  } else {
+    return accumulator(n - 1, n*acc);
+  }
+}
+
+
+unsigned long long factorial_accumulate(int n){
+  unsigned long long start = 1;
+  return accumulator(n, start);
 }
 
 
