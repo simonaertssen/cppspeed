@@ -4,16 +4,16 @@ using namespace std;
 #define MAXNUM 500
 
 // Investigate which computing approaches compute the factorial function the fastest.
-unsigned long long factorial_iteration(int n);
-unsigned long long factorial_recursion(int n);
-unsigned long long accumulator(int n, unsigned long long acc);
-unsigned long long factorial_accumulate(int n);
+unsigned long long factorial_iteration(short n);
+unsigned long long factorial_recursion(short n);
+unsigned long long accumulator(short n, unsigned long long acc);
+unsigned long long factorial_accumulate(short n);
 void factorial_precision(int *result);
 
 int main(int argc, char *argv[])
 {
     cout << "Testing factorial algorithms:" << endl;
-    int i, n = 15;
+    short n = 15;
     unsigned long long result;
     result = factorial_iteration(n);
     cout << "Iteration:  " << n << "! = " << result << endl;
@@ -28,6 +28,7 @@ int main(int argc, char *argv[])
     arr[0] = n;
     factorial_precision(arr);
     cout << "Precision:  " << n << "! = ";
+    int i;
     for (i = arr[MAXNUM-1]-1; i >= 0; i--) cout << *(arr + i);
     cout << endl << endl;
 
@@ -38,7 +39,7 @@ int main(int argc, char *argv[])
     for (i = arr[MAXNUM-1]-1; i >= 0; i--) cout << *(arr + i);
     cout << endl << endl;
 
-    unsigned int maxevals = 1.0e6;
+    unsigned int maxevals = 1.0e7;
     cout << "The results are correct, let's time the performance for " << maxevals << " evaluations:" << endl;
     cout << "Iteration:  "; timeme(factorial_iteration, n, maxevals);
     cout << "Recursion:  "; timeme(factorial_recursion, n, maxevals);
@@ -48,11 +49,11 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-unsigned long long factorial_iteration(int n){
+unsigned long long factorial_iteration(short n){
   unsigned long result = 1;
   if (n < 2) return result;
 
-  int i;
+  short i;
   for (i = 2; i < n+1; i++){
     result *= i;
   }
@@ -60,7 +61,7 @@ unsigned long long factorial_iteration(int n){
 }
 
 
-unsigned long long factorial_recursion(int n){
+unsigned long long factorial_recursion(short n){
   if (n == 0){
      return 1;
   }
@@ -68,7 +69,7 @@ unsigned long long factorial_recursion(int n){
 }
 
 
-unsigned long long accumulator(int n, unsigned long long acc){
+unsigned long long accumulator(short n, unsigned long long acc){
   if (n == 0){
     return acc;
   } else {
@@ -77,14 +78,14 @@ unsigned long long accumulator(int n, unsigned long long acc){
 }
 
 
-unsigned long long factorial_accumulate(int n){
+unsigned long long factorial_accumulate(short n){
   unsigned long long start = 1;
   return accumulator(n, start);
 }
 
 
 void factorial_precision(int *result){
-  int n = result[0];
+  short n = result[0];
   result[0] = 1;
   int i, j, prod, carry, size = 1;
 
