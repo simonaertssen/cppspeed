@@ -15,13 +15,13 @@ double factorial_recursion(short n);
 double accumulator(short n, double acc);
 double factorial_accumulate(short n);
 
-unsigned long long factorial_iteration_karatsuba(short n);
+double factorial_iteration_karatsuba(short n);
 unsigned long long *factorial_iteration_pointer_karatsuba(short *n);
 void factorial_precision(short *result);
 
 int main(int argc, char *argv[]){
     cout.precision(0);
-    short n = 30;
+    short n = 20;
 
     cout << "Testing factorial algorithms using naive multiplication:" << endl;
     double result = factorial_iteration(n);
@@ -38,7 +38,7 @@ int main(int argc, char *argv[]){
 
 
     cout << "Testing factorial algorithms using smart multiplication:" << endl;
-    unsigned long long smart_result = factorial_iteration_karatsuba(n);
+    double smart_result = factorial_iteration_karatsuba(n);
     cout << "Iteration:  " << n << "! = " << fixed << smart_result << endl;
 
     unsigned long long *smart_resultp = factorial_iteration_pointer_karatsuba(&n);
@@ -52,12 +52,12 @@ int main(int argc, char *argv[]){
     for (i = arr[MAXNUM-1]-1; i >= 0; i--) cout << *(arr + i);
     cout << endl << endl;
 
-    cout << "This method is currently precise to up to " << MAXNUM << " digits:" << endl;
-    arr[0] = 200;
-    factorial_precision(arr);
-    cout << "Precision:  " << 50 << "! = ";
-    for (i = arr[MAXNUM-1]-1; i >= 0; i--) cout << *(arr + i);
-    cout << endl << endl;
+    // cout << "This method is currently precise to up to " << MAXNUM << " digits:" << endl;
+    // arr[0] = 200;
+    // factorial_precision(arr);
+    // cout << "Precision:  " << 50 << "! = ";
+    // for (i = arr[MAXNUM-1]-1; i >= 0; i--) cout << *(arr + i);
+    // cout << endl << endl;
 
     unsigned int maxevals = 1.0e4;
     cout.precision(5);
@@ -85,11 +85,11 @@ double factorial_iteration(short n){
   return result;
 }
 
-unsigned long long factorial_iteration_karatsuba(short n){
-  unsigned long long result = 1;
+double factorial_iteration_karatsuba(short n){
+  double result = 1;
   if (n < 2) return result;
 
-  unsigned long long i;
+  double i;
   for (i = 2; i < n+1; i++){
     result = karatsuba_multiplication(result, i);
   }
