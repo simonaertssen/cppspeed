@@ -1,2 +1,2 @@
-# cspeed
-A quick investigation in the different approaches to computing.
+# cppspeed
+A quick investigation in the different approaches to computing with c++.
