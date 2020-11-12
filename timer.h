@@ -12,7 +12,7 @@ void timeme(F f, X input, unsigned int maxevals){
 
   unsigned int i;
   unsigned long long test = 0;
-  for (i = 0; i < maxevals; i++) test = f(input);
+  for (i = 0; i < maxevals; i++) f(input);
   // cout << "Check: " << test << endl;
 
   clock_gettime(CLOCK_MONOTONIC, &end);
