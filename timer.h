@@ -1,4 +1,4 @@
-#ifndef TIMER_H // include guard
+#ifndef TIMER_H
 #define TIMER_H
 
 #include <sys/time.h>
@@ -18,7 +18,7 @@ void timeme(F f, X input, unsigned int maxevals){
   clock_gettime(CLOCK_MONOTONIC, &end);
   // Calculating total time taken by the program.
   double time_taken = ( end.tv_sec - start.tv_sec ) + ( end.tv_nsec - start.tv_nsec ) * 1.0e-9;
-  cout << time_taken << "s" << endl;
+  cout << time_taken * 1000 << " ms" << endl;
 }
 
 #endif /* TIMER_H */

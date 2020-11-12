@@ -22,24 +22,24 @@ int number_size(unsigned long long *n){
   return count;
 }
 
-unsigned long long karatsuba_multiplication(unsigned long long X, unsigned long long Y){
+double karatsuba_multiplication(double X, double Y){
   if (X < 10 && Y < 10) return X * Y;
 
-  unsigned long long size, n, p, a, b, c, d, ac, bd, e;
-  size = (unsigned long long)fmax(number_size(X), number_size(Y));
+  double size, n, p, a, b, c, d, ac, bd, e;
+  size = (double)fmax(number_size(X), number_size(Y));
 
-  n = (unsigned long long)ceil(size / 2.0);
-  p = (unsigned long long)pow(10, n);
-  a = (unsigned long long)floor(X / (unsigned long long)p);
-  b = X % p;
-  c = (unsigned long long)floor(Y / (unsigned long long)p);
-  d = Y % p;
+  n = (double)ceil(size / 2.0);
+  p = (double)pow(10, n);
+  a = (double)floor(X / (double)p);
+  b = fmod(X, p);
+  c = (double)floor(Y / (double)p);
+  d = fmod(Y, p);
 
   ac = karatsuba_multiplication(a, c);
   bd = karatsuba_multiplication(b, d);
   e = karatsuba_multiplication(a + b, c + d) - ac - bd;
 
-  return (unsigned long long)(pow(10 * 1L, 2 * n) * ac + pow(10 * 1L, n) * e + bd);
+  return (double)(pow(10 * 1L, 2 * n) * ac + pow(10 * 1L, n) * e + bd);
 }
 
 
