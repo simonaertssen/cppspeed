@@ -1,6 +1,5 @@
 #include <iostream>
 #include "timer.h"
-#include "karatsuba.h"
 
 using namespace std;
 #define MAXNUM 500
@@ -15,8 +14,6 @@ double factorial_recursion(short n);
 double accumulator(short n, double acc);
 double factorial_accumulate(short n);
 
-double factorial_iteration_karatsuba(short n);
-unsigned long long *factorial_iteration_pointer_karatsuba(short *n);
 void factorial_precision(short *result);
 
 int main(int argc, char *argv[]){
@@ -36,14 +33,6 @@ int main(int argc, char *argv[]){
     result = factorial_accumulate(n);
     cout << "Accumulate: " << n << "! = " << result << endl;
 
-
-    cout << "Testing factorial algorithms using smart multiplication:" << endl;
-    double smart_result = factorial_iteration_karatsuba(n);
-    cout << "Iteration:  " << n << "! = " << fixed << smart_result << endl;
-
-    unsigned long long *smart_resultp = factorial_iteration_pointer_karatsuba(&n);
-    cout << "Iteration:  " << n << "! = " << fixed << *smart_resultp << endl;
-
     short *arr = new short[MAXNUM];
     arr[0] = n;
     factorial_precision(arr);
@@ -52,22 +41,20 @@ int main(int argc, char *argv[]){
     for (i = arr[MAXNUM-1]-1; i >= 0; i--) cout << *(arr + i);
     cout << endl << endl;
 
-    // cout << "This method is currently precise to up to " << MAXNUM << " digits:" << endl;
-    // arr[0] = 200;
-    // factorial_precision(arr);
-    // cout << "Precision:  " << 50 << "! = ";
-    // for (i = arr[MAXNUM-1]-1; i >= 0; i--) cout << *(arr + i);
-    // cout << endl << endl;
+    cout << "This method is currently precise to up to " << MAXNUM << " digits:" << endl;
+    arr[0] = 200;
+    factorial_precision(arr);
+    cout << "Precision:  " << 50 << "! = ";
+    for (i = arr[MAXNUM-1]-1; i >= 0; i--) cout << *(arr + i);
+    cout << endl << endl;
 
-    unsigned int maxevals = 1.0e4;
+    unsigned int maxevals = 1.0e6;
     cout.precision(5);
     cout << "Let's time the performance for " << maxevals << " evaluations:" << endl;
     cout << "Iteration:  "; timeme(factorial_iteration, n, maxevals);
     cout << "Iteration*: "; timeme(&factorial_iteration_pointer, &n, maxevals);
     cout << "Recursion:  "; timeme(factorial_recursion, n, maxevals);
     cout << "Accumulate: "; timeme(factorial_accumulate, n, maxevals);
-    cout << "Karatsuba:  "; timeme(factorial_iteration_karatsuba, n, maxevals);
-    cout << "Karatsuba*: "; timeme(&factorial_iteration_pointer_karatsuba, &n, maxevals);
     cout << "Precision:  "; timeme(factorial_precision, arr, maxevals);
 
     return 0;
@@ -85,16 +72,6 @@ double factorial_iteration(short n){
   return result;
 }
 
-double factorial_iteration_karatsuba(short n){
-  double result = 1;
-  if (n < 2) return result;
-
-  double i;
-  for (i = 2; i < n+1; i++){
-    result = karatsuba_multiplication(result, i);
-  }
-  return result;
-}
 
 double *factorial_iteration_pointer(short *n){
   double start = 1;
@@ -108,18 +85,6 @@ double *factorial_iteration_pointer(short *n){
   return result;
 }
 
-unsigned long long *factorial_iteration_pointer_karatsuba(short *n){
-  unsigned long long start = 1;
-  unsigned long long *result = &start, *mult = NULL;
-  if (*n < 2) return result;
-
-  unsigned long long i;
-  for (i = 2; i < *n+1; i++){
-    mult = &i;
-    *result = karatsuba_multiplication(*result, *mult);
-  }
-  return result;
-}
 
 double factorial_recursion(short n){
   if (n == 0){
