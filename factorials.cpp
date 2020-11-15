@@ -5,7 +5,7 @@ using namespace std;
 #define MAXNUM 500
 
 // Investigate which computing approaches compute the factorial function the fastest.
-// Wehn using the IEEE-754 64-bit double precision floating point number type,
+// When using the IEEE-754 64-bit double precision floating point number type,
 // one can only expect a precision of 53 bits in the mantissa, which corresponds
 // to about log(2^53) ~ 15.955 decimal digits.
 // However, we can use some arbitrary precision arithmetic to produce the right results quickly.
