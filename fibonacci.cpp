@@ -13,13 +13,12 @@ using namespace std;
 double fibonacci_iteration(unsigned int n);
 double *fibonacci_iteration_p(unsigned int *n);
 double fibonacci_recursion(unsigned int n);
-void fibonacci_precision(int *n);
+void fibonacci_precision(int *result);
 
 int main(int argc, char *argv[])
 {
     cout.precision(0);
-    unsigned int n = 100;
-    n = 10;
+    unsigned int n = 10;
 
     cout << "Testing fibonacci algorithms using naive multiplication:" << endl;
     double result = fibonacci_iteration(n);
@@ -35,41 +34,39 @@ int main(int argc, char *argv[])
     int *arr = new int[MAXNUM];
     arr[0] = n;
     fibonacci_precision(arr);
-    cout << "Precision:  " << n << "! = ";
+    cout << "Precision:  fib(" << n << ") = ";
     int i;
     for (i = arr[MAXNUM-1]-1; i >= 0; i--) cout << *(arr + i);
     cout << endl << endl;
 
-    unsigned int maxevals = 1.0e6;
+    unsigned int maxevals = 1.0e9;
     cout.precision(5);
     cout << "Let's time the performance for " << maxevals << " evaluations:" << endl;
     cout << "Iteration:  "; timeme(fibonacci_iteration, n, maxevals);
     cout << "Iteration*: "; timeme(&fibonacci_iteration_p, &n, maxevals);
-    cout << "Recursion:  "; timeme(fibonacci_recursion, n, maxevals);
+    // cout << "Recursion:  "; timeme(fibonacci_recursion, n, maxevals);
 
     return 0;
 }
 
 double fibonacci_iteration(unsigned int n){
-  double prior = 0, previous = 1, current = 0;
+  double previous = 1, current = 0;
   unsigned int i;
   for (i = 0; i < n; i++){
-    prior = previous;
-    previous = current;
-    current = prior + previous;
+    current += previous;
+    previous = current - previous;
   }
   return current;
 }
 
 
 double *fibonacci_iteration_p(unsigned int *n){
-  double startprior = 0, startprevious = 1, startcurrent = 0;
-  double *prior = &startprior, *previous = &startprevious, *current = &startcurrent;
+  double startprevious = 1, startcurrent = 0;
+  double *previous = &startprevious, *current = &startcurrent;
   unsigned int i;
   for (i = 0; i < *n; i++){
-    *prior = *previous;
-    *previous = *current;
-    (*current) = (*prior) + (*previous);
+    *current += (*previous);
+    *previous = *current - (*previous);
   }
   return current;
 }
@@ -108,11 +105,46 @@ double fibonacci_recursion(unsigned int n){
 // }
 
 
+void fibonacci_precision(int *current){
+  int n = current[0];
+  current[0] = 0;
+  int *previous = new int[MAXNUM];
+  previous[0] = 1;
+  int i, j, res, carry, previoussize = 1, currentsize = 1;
 
-void fibonacci_precision(int *n){
-  int n = result[0];
-  result[0] = 1;
-  int i, j, prod, carry, size = 1;
-
-  result[MAXNUM-1] = size;s
+  for (i = 0; i < n; i++){
+    // Perform addition: current += previous
+    carry = 0;
+    for (j = 0; j < currentsize; j++){
+        res = current[j] + previous[j] + carry;
+        current[j] = res % 10;
+        carry = res/10;
+    }
+    while (carry > 0){
+      if (currentsize > MAXNUM){
+        printf("Overflow encountered. Exiting. \n");
+        return;
+      }
+      current[currentsize] = carry%10;
+      carry = carry/10;
+      currentsize++;
+    }
+    // Perform subtraction: previous = current - previous
+    carry = 0;
+    for (j = 0; j < previoussize; j++){
+        res = current[j] - previous[j] + carry;
+        previous[j] = res % 10;
+        carry = res/10;
+    }
+    while (carry > 0){
+      if (previoussize > MAXNUM){
+        printf("Overflow encountered. Exiting. \n");
+        return;
+      }
+      previous[previoussize] = carry%10;
+      carry = carry/10;
+      previoussize++;
+    }
+  }
+  current[MAXNUM-1] = currentsize;
 }
