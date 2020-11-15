@@ -1,7 +1,7 @@
 CC = g++
 FLAGS = -Wall -O3
 
-HEADER = timer.h karatsuba.h
+HEADER = timer.h 
 LIB = lib
 
 FACTORIAL = factorials
@@ -9,7 +9,7 @@ FACTORIALED = $(LIB)/$(FACTORIAL)
 FIBONACCI = fibonacci
 FIBONACCIED = $(LIB)/$(FIBONACCI)
 
-all: $(FACTORIAL)
+all: $(FIBONACCI)
 
 $(FACTORIAL): $(FACTORIAL).cpp
 	@$(CC) -o $(FACTORIALED) $(FLAGS) $(FACTORIAL).cpp
