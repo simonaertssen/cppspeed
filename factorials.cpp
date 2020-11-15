@@ -15,7 +15,6 @@ double *factorial_iteration_p(int *n);
 double factorial_recursion(int n);
 double accumulator(int n, double acc);
 double factorial_accumulate(int n);
-
 void factorial_precision(int *result);
 
 int main(int argc, char *argv[]){
