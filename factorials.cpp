@@ -10,16 +10,16 @@ using namespace std;
 // to about log(2^53) ~ 15.955 decimal digits.
 // However, we can use some arbitrary precision arithmetic to produce the right results quickly.
 
-double factorial_iteration(int n);
-double *factorial_iteration_p(int *n);
-double factorial_recursion(int n);
-double accumulator(int n, double acc);
-double factorial_accumulate(int n);
+double factorial_iteration(unsigned int n);
+double *factorial_iteration_p(unsigned int *n);
+double factorial_recursion(unsigned int n);
+double accumulator(unsigned int n, double acc);
+double factorial_accumulate(unsigned int n);
 void factorial_precision(int *result);
 
 int main(int argc, char *argv[]){
     cout.precision(0);
-    int n = 22;
+    unsigned int n = 22;
 
     cout << "Testing factorial algorithms using naive multiplication:" << endl;
     double result = factorial_iteration(n);
@@ -76,11 +76,11 @@ int main(int argc, char *argv[]){
 }
 
 
-double factorial_iteration(int n){
+double factorial_iteration(unsigned int n){
   double result = 1;
   if (n < 2) return result;
 
-  int i;
+  unsigned int i;
   for (i = 2; i < n+1; i++){
     result *= i;
   }
@@ -88,12 +88,12 @@ double factorial_iteration(int n){
 }
 
 
-double *factorial_iteration_p(int *n){
+double *factorial_iteration_p(unsigned int *n){
   double start = 1;
   double *result = &start;
   if (*n < 2) return result;
 
-  int i;
+  unsigned int i;
   for (i = 2; i < *n+1; i++){
     (*result) *= i;
   }
@@ -101,7 +101,7 @@ double *factorial_iteration_p(int *n){
 }
 
 
-double factorial_recursion(int n){
+double factorial_recursion(unsigned int n){
   if (n == 0){
      return 1;
   }
@@ -109,7 +109,7 @@ double factorial_recursion(int n){
 }
 
 
-double accumulator(int n, double acc){
+double accumulator(unsigned int n, double acc){
   if (n == 0){
     return acc;
   } else {
@@ -118,7 +118,7 @@ double accumulator(int n, double acc){
 }
 
 
-double factorial_accumulate(int n){
+double factorial_accumulate(unsigned int n){
   double start = 1;
   return accumulator(n, start);
 }
