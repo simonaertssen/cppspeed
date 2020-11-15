@@ -8,7 +8,7 @@ using namespace std;
 // Wehn using the IEEE-754 64-bit double precision floating point number type,
 // one can only expect a precision of 53 bits in the mantissa, which corresponds
 // to about log(2^53) ~ 15.955 decimal digits.
-// However, we can use some
+// However, we can use some arbitrary precision arithmetic to produce the right results quickly.
 
 double factorial_iteration(int n);
 double *factorial_iteration_p(int *n);
@@ -53,6 +53,25 @@ int main(int argc, char *argv[]){
     cout << "Recursion:  "; timeme(factorial_recursion, n, maxevals);
     cout << "Accumulate: "; timeme(factorial_accumulate, n, maxevals);
     cout << "Precision:  "; timeme(factorial_precision, arr, maxevals);
+
+    /* Output:
+    Testing factorial algorithms using naive multiplication:
+    Iteration:  22! = 1124000727777607680000
+    Iteration*: 22! = 1124000727777607680000
+    Recursion:  22! = 1124000727777607680000
+    Accumulate: 22! = 1124000727777607680000
+
+
+    Testing factorial algorithms using arbitrary precision:
+    Precision:  22! = 1124000727777607680000
+
+    Let's time the performance for 1000 evaluations:
+    Iteration:  0.01200 ms
+    Iteration*: 0.00100 ms
+    Recursion:  0.04800 ms
+    Accumulate: 0.01200 ms
+    Precision:  0.00200 ms
+    */
 
     return 0;
 }
@@ -118,7 +137,11 @@ void factorial_precision(int *result){
       result[j] = prod % 10;
       carry  = prod/10;
     }
-    while (carry){
+    while (carry > 0){
+      if (size > MAXNUM){
+        printf("Overflow encountered. Exiting. \n");
+        return;
+      }
       result[size] = carry%10;
       carry = carry/10;
       size++;
