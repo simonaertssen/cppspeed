@@ -26,7 +26,7 @@ int main(int argc, char *argv[]){
     cout << "Iteration:  " << n << "! = " << fixed << result << endl;
 
     double *resultp = factorial_iteration_p(&n);
-    cout << "Iteration*: " << n << "! = " << fixed << *resultp << endl;
+    cout << "Iteration*: " << n << "! = " << *resultp << endl;
 
     result = factorial_recursion(n);
     cout << "Recursion:  " << n << "! = " << result << endl;
