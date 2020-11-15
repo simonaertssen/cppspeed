@@ -16,14 +16,12 @@ void timeme(F f, X input, unsigned int maxevals){
   ios_base::sync_with_stdio(false);
 
   unsigned int i;
-  // unsigned long long test = 0;
   for (i = 0; i < maxevals; i++) f(input);
-  // cout << "Check: " << test << endl;
 
   clock_gettime(CLOCK_MONOTONIC, &end);
   // Calculating total time taken by the program.
-  double time_taken = ( end.tv_sec - start.tv_sec ) + ( end.tv_nsec - start.tv_nsec ) * 1.0e-9;
-  cout << time_taken * 1000 << " ms" << endl;
+  double time_taken = ( end.tv_sec - start.tv_sec ) + ( end.tv_nsec - start.tv_nsec ) * 1.0e-6;
+  cout << time_taken << " ms" << endl;
 }
 
 #endif /* TIMER_H */
