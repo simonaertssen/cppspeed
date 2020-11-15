@@ -5,8 +5,10 @@ using namespace std;
 #define MAXNUM 500
 
 // Investigate which computing approaches compute the factorial function the fastest.
-// Some computations are only accurate to up to 15 digits due to the double type,
-// but using the Karatsuba algorithm we can increase the precision.
+// Wehn using the IEEE-754 64-bit double precision floating point number type,
+// one can only expect a precision of 53 bits in the mantissa, which corresponds
+// to about log(2^53) ~ 15.955 decimal digits.
+// However, we can use some
 
 double factorial_iteration(short n);
 double *factorial_iteration_pointer(short *n);
@@ -32,19 +34,14 @@ int main(int argc, char *argv[]){
 
     result = factorial_accumulate(n);
     cout << "Accumulate: " << n << "! = " << result << endl;
-
+    cout << endl << endl;
+    
+    cout << "Testing factorial algorithms using arbitrary precision:" << endl;
     short *arr = new short[MAXNUM];
     arr[0] = n;
     factorial_precision(arr);
     cout << "Precision:  " << n << "! = ";
     int i;
-    for (i = arr[MAXNUM-1]-1; i >= 0; i--) cout << *(arr + i);
-    cout << endl << endl;
-
-    cout << "This method is currently precise to up to " << MAXNUM << " digits:" << endl;
-    arr[0] = 200;
-    factorial_precision(arr);
-    cout << "Precision:  " << 50 << "! = ";
     for (i = arr[MAXNUM-1]-1; i >= 0; i--) cout << *(arr + i);
     cout << endl << endl;
 
