@@ -4,6 +4,11 @@
 #include <sys/time.h>
 using namespace std;
 
+/* void timeme:
+F f:                    a function handle to be called within the timing loop
+X input:                input to the function f
+unsigned int maxevals:  number of evaluations for the timer
+*/
 template <typename F, typename X>
 void timeme(F f, X input, unsigned int maxevals){
   struct timespec start, end;

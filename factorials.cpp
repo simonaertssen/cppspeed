@@ -11,7 +11,7 @@ using namespace std;
 // However, we can use some
 
 double factorial_iteration(short n);
-double *factorial_iteration_pointer(short *n);
+double *factorial_iteration_p(short *n);
 double factorial_recursion(short n);
 double accumulator(short n, double acc);
 double factorial_accumulate(short n);
@@ -26,7 +26,7 @@ int main(int argc, char *argv[]){
     double result = factorial_iteration(n);
     cout << "Iteration:  " << n << "! = " << fixed << result << endl;
 
-    double *resultp = factorial_iteration_pointer(&n);
+    double *resultp = factorial_iteration_p(&n);
     cout << "Iteration*: " << n << "! = " << fixed << *resultp << endl;
 
     result = factorial_recursion(n);
@@ -35,7 +35,7 @@ int main(int argc, char *argv[]){
     result = factorial_accumulate(n);
     cout << "Accumulate: " << n << "! = " << result << endl;
     cout << endl << endl;
-    
+
     cout << "Testing factorial algorithms using arbitrary precision:" << endl;
     short *arr = new short[MAXNUM];
     arr[0] = n;
@@ -49,7 +49,7 @@ int main(int argc, char *argv[]){
     cout.precision(5);
     cout << "Let's time the performance for " << maxevals << " evaluations:" << endl;
     cout << "Iteration:  "; timeme(factorial_iteration, n, maxevals);
-    cout << "Iteration*: "; timeme(&factorial_iteration_pointer, &n, maxevals);
+    cout << "Iteration*: "; timeme(&factorial_iteration_p, &n, maxevals);
     cout << "Recursion:  "; timeme(factorial_recursion, n, maxevals);
     cout << "Accumulate: "; timeme(factorial_accumulate, n, maxevals);
     cout << "Precision:  "; timeme(factorial_precision, arr, maxevals);
@@ -70,7 +70,7 @@ double factorial_iteration(short n){
 }
 
 
-double *factorial_iteration_pointer(short *n){
+double *factorial_iteration_p(short *n){
   double start = 1;
   double *result = &start;
   if (*n < 2) return result;
