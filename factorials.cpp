@@ -134,7 +134,7 @@ void factorial_precision(int *result){
     for (j = 0; j < size; j++){
       prod = result[j] * i + carry;
       result[j] = prod % 10;
-      carry  = prod/10;
+      carry = prod/10;
     }
     while (carry > 0){
       if (size > MAXNUM){
